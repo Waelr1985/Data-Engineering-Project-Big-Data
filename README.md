@@ -27,8 +27,8 @@ Parameters Explained:
 --rm: Remove container after execution
 --name: Container name
 -v: Volume mounts
-key.json: Google Cloud credentials (read-only)
-artifacts: Output directory for processed data
+    key.json: Google Cloud credentials (read-only)
+    artifacts: Output directory for processed data
 -e: Environment variables
 GOOGLE_APPLICATION_CREDENTIALS: Path to credentials inside container
 GOOGLE_CLOUD_PROJECT: Your Google Cloud project ID
