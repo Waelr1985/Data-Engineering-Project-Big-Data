@@ -32,3 +32,31 @@ Parameters Explained:
 -e: Environment variables
 GOOGLE_APPLICATION_CREDENTIALS: Path to credentials inside container
 GOOGLE_CLOUD_PROJECT: Your Google Cloud project ID
+
+
+# Data Ingestion Service
+
+## How to use this container
+
+# just need to run this command:
+docker pull waelr1985/data-ingestion-service:latest
+
+
+1. Download your Google Cloud service account key as `key.json`
+
+2. Run the container:
+```bash
+docker run -it --rm \
+    --name data-ingestion-container-new \
+    -v "/your/path/to/key.json:/app/key.json:ro" \
+    -v "/your/path/to/artifacts:/app/artifacts" \
+    -e GOOGLE_APPLICATION_CREDENTIALS=/app/key.json \
+    -e GOOGLE_CLOUD_PROJECT=your-project-id \
+    yourusername/data-ingestion-service
+
+
+Requirements:
+
+Docker installed
+Google Cloud service account key
+Access to Google Cloud Storage
