@@ -1,5 +1,5 @@
 import sys
-from skin.components.data_ingestion import DataIngestion
+from skin.components.data_ingestion.data_ingestion import DataIngestion
 #from skin.components.data_transforamation import DataTransformation
 #from skin.components.model_training import ModelTraining
 #from skin.components.model_evaluation import ModelEvaluation
