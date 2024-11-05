@@ -1,0 +1,6 @@
+pandas==1.5.3
+numpy==1.23.5
+evidently==0.3.2
+datetime==5.1
+jsonschema==4.17.3
+loguru==0.6.0
