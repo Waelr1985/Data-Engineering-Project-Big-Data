@@ -1,0 +1,32 @@
+# Data paths
+input_path: "artifacts/extracted_data"
+output_path: "artifacts/transformed_data"
+
+# Feature configuration
+features:
+  columns:
+    - "B"  # Blue channel
+    - "G"  # Green channel
+    - "R"  # Red channel
+  label: "y"  # Binary classification target
+
+# Data split configuration
+split:
+  train_ratio: 0.8
+  test_ratio: 0.2
+  random_seed: 42
+
+# Future model configuration (for model_training.py)
+model:
+  type: "random_forest"
+  params:
+    numTrees: 100
+    maxDepth: 10
+    seed: 42
+    featureSubsetStrategy: "auto"
+    impurity: "gini"
+
+# Logging configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
