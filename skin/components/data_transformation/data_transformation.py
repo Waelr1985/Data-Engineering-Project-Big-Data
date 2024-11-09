@@ -10,7 +10,7 @@ class DataTransformationService:
         """Initialize service with config and spark session"""
         self.logger = logging.getLogger(__name__)
         self.config = DataTransformationConfig()
-        self.spark = self._create_spark_session()
+        self.spark = self._create_spark_session() 
         
     def _create_spark_session(self) -> SparkSession:
         """Create and configure Spark session"""

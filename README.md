@@ -1,6 +1,6 @@
 # Data-Engineering-Project-Big-Data
 
-
+# This repository contains Microservices for Skin Segmentation Machine Learning Application:
 
 # Data Engineering Project - Docker Services
 
@@ -166,3 +166,47 @@ To pull the image:
 docker pull waelr1985/data-transformation-service:latest
 
 
+
+## Model Training Service
+
+### Build
+```bash
+docker build -t model-training-service -f skin/components/model_training/Dockerfile .
+
+Run
+docker run -v "D:/Data-Engineering-Project-Big-Data/artifacts:/app/artifacts" model-training-service
+
+Push to Docker Hub
+docker tag model-training-service waelr1985/model-training-service:latest
+docker push waelr1985/model-training-service:latest
+
+Pull from Docker Hub
+docker pull waelr1985/model-training-service:latest
+
+
+Model Evaluation Service
+
+
+Build
+docker build -t model-evaluation-service -f skin/components/model_evaluation/Dockerfile .
+
+
+Run
+docker run -v "D:/Data-Engineering-Project-Big-Data/artifacts:/app/artifacts" model-evaluation-service
+
+
+Push to Docker Hub
+
+docker tag model-evaluation-service waelr1985/model-evaluation-service:latest
+docker push waelr1985/model-evaluation-service:latest
+
+Pull from Docker Hub
+docker pull waelr1985/model-evaluation-service:latest
+
+
+Performance Metrics
+The model achieves the following performance on the test set:
+Accuracy: 97.23%
+Precision: 97.32%
+Recall: 97.23%
+F1 Score: 97.26%

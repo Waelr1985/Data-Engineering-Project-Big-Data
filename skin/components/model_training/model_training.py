@@ -1,80 +1,122 @@
-
-# Import required libraries
+# model_training.py
 import os
-import json
-import yaml
+import logging
 from pyspark.sql import SparkSession
-from pyspark.ml.feature import VectorAssembler, StandardScaler
-from pyspark.ml import Pipeline
-from pyspark.ml.classification import RandomForestClassifier, RandomForestClassificationModel
-from pyspark.ml.evaluation import MulticlassClassificationEvaluator
-from skin.logger import logging
+from pyspark.ml.feature import VectorAssembler
+from pyspark.ml.classification import RandomForestClassifier
+from config import ModelTrainingConfig
 
-# Model Training Service
-class ModelTrainingService:
-    def __init__(self, config_path: str = 'config.yaml'):
-        logging.info(f"Initializing ModelTrainingService with config: {config_path}")
-        self.config = self._load_config(config_path)
-        self.spark = self._create_spark_session()
-        
-    def _load_config(self, config_path: str) -> dict:
-        logging.info(f"Loading configuration from {config_path}")
-        try:
-            with open(config_path, 'r') as file:
-                config = yaml.safe_load(file)
-            logging.info("Configuration loaded successfully")
-            return config
-        except Exception as e:
-            logging.error(f"Error loading configuration: {str(e)}")
-            raise
-    
-    def _create_spark_session(self) -> SparkSession:
-        logging.info("Creating Spark session for model training")
-        return SparkSession.builder \
-            .appName("ModelTraining") \
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
+class ModelTrainer:
+    def __init__(self):
+        self.config = ModelTrainingConfig()
+        self.spark = SparkSession.builder \
+            .appName("SkinModelTraining") \
+            .config("spark.driver.memory", "4g") \
+            .config("spark.executor.memory", "4g") \
             .getOrCreate()
-    
-    def train_and_save(self, artifact_path: str):
+        logger.info("Created Spark session")
+
+    def load_data(self):
+        """Load training data from CSV files"""
         try:
-            logging.info(f"Starting model training process using artifacts from: {artifact_path}")
+            train_path = os.path.join(self.config.train_dir, "train_data")
+            logger.info(f"Loading training data from {train_path}")
             
-            # Load training data
-            logging.info("Loading training data from parquet")
-            train_data = self.spark.read.parquet(f"{artifact_path}/train_data")
-            logging.info(f"Training data loaded. Number of records: {train_data.count()}")
+            # Changed from parquet to csv
+            train_data = self.spark.read.csv(
+                train_path,
+                header=True,
+                inferSchema=True
+            )
             
-            # Configure Random Forest
-            logging.info("Configuring Random Forest classifier")
-            rf_params = {
-                'labelCol': self.config['label_column'],
-                'featuresCol': "features",
-                'numTrees': self.config['model_params']['numTrees'],
-                'maxDepth': self.config['model_params']['maxDepth']
-            }
-            logging.info(f"Random Forest parameters: {rf_params}")
+            # Convert column names to match expected format
+            train_data = train_data.select(
+                train_data.B.cast("double"),
+                train_data.G.cast("double"),
+                train_data.R.cast("double"),
+                train_data.y.cast("double")
+            )
             
-            rf = RandomForestClassifier(**rf_params)
+            return train_data
+        except Exception as e:
+            logger.error(f"Error loading training data: {str(e)}")
+            raise
+
+    def prepare_features(self, data):
+        """Prepare feature vector for training"""
+        try:
+            feature_cols = ["B", "G", "R"]
+            assembler = VectorAssembler(
+                inputCols=feature_cols,
+                outputCol="features"
+            )
+            data_with_features = assembler.transform(data)
+            logger.info("Prepared feature vectors")
+            return data_with_features
+        except Exception as e:
+            logger.error(f"Error preparing features: {str(e)}")
+            raise
+
+    def train_model(self, data):
+        """Train Random Forest model"""
+        try:
+            rf = RandomForestClassifier(
+                labelCol="y",
+                featuresCol="features",
+                numTrees=100,
+                maxDepth=10,
+                seed=42
+            )
+            
+            model = rf.fit(data)
+            logger.info("Trained Random Forest model")
+            return model
+        except Exception as e:
+            logger.error(f"Error training model: {str(e)}")
+            raise
+
+    def save_model(self, model):
+        """Save the trained model"""
+        try:
+            model_path = os.path.join(self.config.model_dir, "random_forest_model")
+            model.save(model_path)
+            logger.info(f"Saved model to {model_path}")
+        except Exception as e:
+            logger.error(f"Error saving model: {str(e)}")
+            raise
+
+    def run_training_pipeline(self):
+        """Execute the full training pipeline"""
+        try:
+            logger.info("Starting model training pipeline")
+            
+            # Load data
+            train_data = self.load_data()
+            logger.info(f"Loaded {train_data.count()} training records")
+            
+            # Prepare features
+            data_prepared = self.prepare_features(train_data)
             
             # Train model
-            logging.info("Training Random Forest model...")
-            model = rf.fit(train_data)
-            logging.info("Model training completed")
-            
-            # Log feature importances
-            feature_importance = model.featureImportances
-            logging.info(f"Feature importances: {feature_importance}")
+            model = self.train_model(data_prepared)
             
             # Save model
-            model_path = f"{artifact_path}/trained_model"
-            logging.info(f"Saving trained model to: {model_path}")
-            model.save(model_path)
-            logging.info("Model saved successfully")
+            self.save_model(model)
+            
+            logger.info("Completed model training pipeline")
             
         except Exception as e:
-            logging.error(f"Error in model training: {str(e)}")
+            logger.error(f"Pipeline failed: {str(e)}")
             raise
         finally:
-            logging.info("Stopping Spark session")
             self.spark.stop()
 
-logging.info("Model Training Service defined successfully")
+if __name__ == "__main__":
+    trainer = ModelTrainer()
+    trainer.run_training_pipeline()
