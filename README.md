@@ -210,3 +210,15 @@ Accuracy: 97.23%
 Precision: 97.32%
 Recall: 97.23%
 F1 Score: 97.26%
+
+
+## Model Training Pusher Service
+Build
+docker build -t model-pusher-service -f skin/components/model_pusher/Dockerfile .
+
+RUN
+docker run -v "$(pwd)/artifacts:/app/artifacts" \
+          -v "${PWD}/key.json:/app/key.json:ro"\
+          -e GOOGLE_APPLICATION_CREDENTIALS=/app/key.json \
+          -e GOOGLE_CLOUD_PROJECT=starlit-byway-436420-s9 \
+          model-pusher-service
