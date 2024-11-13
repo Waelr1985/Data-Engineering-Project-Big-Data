@@ -222,3 +222,21 @@ docker run -v "$(pwd)/artifacts:/app/artifacts" \
           -e GOOGLE_APPLICATION_CREDENTIALS=/app/key.json \
           -e GOOGLE_CLOUD_PROJECT=starlit-byway-436420-s9 \
           model-pusher-service
+
+
+### Model Predictor Service
+
+BUILD
+docker build --no-cache -t model-predictor-service -f skin/components/model_predictor/Dockerfile .
+
+RUN
+docker run -d --name model-predictor -e GOOGLE_APPLICATION_CREDENTIALS=/app/credentials/key.json -v "D:\Data-Engineering-Project-Big-Data\key.json:/app/credentials/key.json" -v D:\Data-Engineering-Project-Big-Data\artifacts:/app/artifacts --env B=150 --env G=100 --env R=200 model-predictor-service
+
+PUSH
+docker tag model-predictor-service waelr1985/model-predictor:latest
+
+docker push waelr1985/model-predictor:latest
+
+
+PULL
+docker pull waelr1985/model-predictor:latest
