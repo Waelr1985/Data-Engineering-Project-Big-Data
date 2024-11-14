@@ -240,3 +240,12 @@ docker push waelr1985/model-predictor:latest
 
 PULL
 docker pull waelr1985/model-predictor:latest
+
+
+
+
+### app service
+
+Build 
+docker build -t app .
+
