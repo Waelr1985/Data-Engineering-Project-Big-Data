@@ -9,6 +9,21 @@
 =====================================
 
 
+artifacts folder structure:
+
+artifacts/
+├── raw_data/
+
+├── extracted_data/
+
+├── data_validation/
+
+├── transformed_data/
+
+├── model/
+
+└── imported_model/
+
 
 # Data Engineering Project - Docker Services
 
