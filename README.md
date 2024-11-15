@@ -2,59 +2,12 @@
 
 # This repository contains Microservices for Skin Segmentation Machine Learning Application: 
 
+# Folder structure
+
 ![alt text](image.png)
 
-# Folder structure
 =====================================
-skin/
-├── components/
-│   ├── __init__.py
-│   ├── setup
-│   ├── data_ingestion/
-│   │   ├── data_ingestion.py
-│   │   ├── Dockerfile
-│   │   └── requirements.txt
-│   ├── data_validation/
-│   │   ├── data_validation.py
-│   │   ├── Dockerfile
-│   │   ├── requirements.txt
-│   │   └── config.py
-│   ├── data_transformation/
-│   │   ├── data_transformation.py
-│   │   ├── Dockerfile
-│   │   ├── requirements.txt
-│   │   └── config.py
-│   ├── model_training/
-│   │   ├── model_training.py
-│   │   ├── Dockerfile
-│   │   ├── requirements.txt
-│   │   └── config.py
-│   ├── model_evaluation/
-│   │   ├── model_evaluation
-│   │   ├── Dockerfile
-│   │   └── requirements.txt
-│   ├── model_pusher/
-│   │   ├── model_pusher.py
-│   │   ├── Dockerfile
-│   │   └── requirements.txt
-│   ├── model_predictor/
-│   │   ├── model_predictor.py
-│   │   ├── Dockerfile
-│   │   └── requirements.txt
-│   ├── configuration/
-│   │   ├── __init__.py
-│   │   └── gcloud.py
-│   ├── constants/
-│   │   └── __init__.py
-│   ├── logger/
-│   │   └── __init__.py
-│   └── exception/
-│       └── __init__.py
-├── app
-├── Dockerfile
-├── requirements.txt
-├── README
-└── setup
+
 
 
 # Data Engineering Project - Docker Services
