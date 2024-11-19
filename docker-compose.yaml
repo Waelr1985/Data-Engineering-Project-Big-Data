@@ -1,0 +1,75 @@
+
+version: '3.8'
+services:
+  data-ingestion-service:
+    image: waelr1985/data-ingestion-service
+    container_name: data-ingestion
+    volumes:
+      - ./artifacts:/app/artifacts
+    command: python /app/skin/components/data_ingestion/data_ingestion.py
+
+  data-validation-service:
+    image: waelr1985/data-validation-service
+    container_name: data-validation
+    volumes:
+      - ./artifacts:/app/artifacts
+      - ./config:/app/config
+    command: python /app/skin/components/data_validation/data_validation.py
+
+  data-transformation-service:
+    image: waelr1985/data-transformation-service
+    container_name: data-transformation
+    volumes:
+      - ./artifacts:/app/artifacts
+    command: python /app/skin/components/data_transformation/data_transformation.py
+
+  model-training-service:
+    image: waelr1985/model-training-service
+    container_name: model-training
+    volumes:
+      - ./artifacts:/app/artifacts
+    command: python /app/skin/components/model_training/model_training.py
+
+  model-evaluation-service:
+    image: waelr1985/model-evaluation-service
+    container_name: model-evaluation
+    volumes:
+      - ./artifacts:/app/artifacts
+    command: python /app/skin/components/model_evaluation/model_evaluation.py
+
+  model-pusher-service:
+    image: waelr1985/model-pusher-service
+    container_name: model-pusher
+    volumes:
+      - ./artifacts:/app/artifacts
+      - ./key.json:/app/key.json:ro
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/key.json
+      - GOOGLE_CLOUD_PROJECT=starlit-byway-436420-s9
+    command: python /app/skin/components/model_pusher/model_pusher.py
+
+  model-predictor-service:
+    image: waelr1985/model-predictor
+    container_name: model-predictor
+    volumes:
+      - ./artifacts:/app/artifacts
+      - ./key.json:/app/credentials/key.json:ro
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/credentials/key.json
+      - B=${B}
+      - G=${G}
+      - R=${R}
+    command: python skin/components/model_predictor/model_predictor.py
+
+  app-service:
+    image: waelr1985/app:latest
+    container_name: app
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app/config
+      - ./key.json:/app/key.json:ro
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/key.json
+      - GOOGLE_CLOUD_PROJECT=starlit-byway-436420-s9
+    command: uvicorn app:app --host 0.0.0.0 --port 8000

@@ -1,10 +1,11 @@
 # Data-Engineering-Project-Big-Data
 
 # This repository contains Microservices for Skin Segmentation Machine Learning Application: 
+The dataset is designed for skin detection and segmentation in computer vision applications. It contains RGB color values extracted from face images of individuals across different age groups, races, and genders.
 
 # Folder structure
 
-![alt text](image-1.png)
+![alt text](image.png)
 
 =====================================
 
@@ -39,6 +40,11 @@ Make sure you have the following software installed:
 ```bash
 docker build -t data-ingestion-service -f skin/components/data_ingestion/Dockerfile .
 
+PUSH
+docker tag data-ingestion-service waelr1985/data-ingestion-service:latest
+docker push waelr1985/data-ingestion-service:latest
+
+
 #### Run the Data Ingestion Container
 docker run -it --rm \
     --name data-ingestion-container-new \
@@ -47,6 +53,9 @@ docker run -it --rm \
     -e GOOGLE_APPLICATION_CREDENTIALS=/app/key.json \
     -e GOOGLE_CLOUD_PROJECT=starlit-byway-436420-s9 \
     data-ingestion-service
+
+
+docker run -it --rm --name data-ingestion-container-new -v "${PWD}/key.json:/app/key.json:ro" -v "${PWD}/artifacts:/app/artifacts" -e GOOGLE_APPLICATION_CREDENTIALS=/app/key.json -e GOOGLE_CLOUD_PROJECT=starlit-byway-436420-s9 waelr1985/data-ingestion-service
 
 
 Parameters Explained:
@@ -112,7 +121,7 @@ To run the Docker container with the Data Validation Service, execute:
 docker run -it \
     -v "D:\Data-Engineering-Project-Big-Data\artifacts:/app/artifacts" \
     -v "D:\Data-Engineering-Project-Big-Data\config:/app/config" \
-    --name data-validation data-validation-service
+    --name data-validation waelr1985/data-validation-service
 
 This command:
 
@@ -142,6 +151,10 @@ docker rm data-validation
 To remove the image:
 docker rmi data-validation-service
 
+PUSH
+docker tag data-validation-service waelr1985/data-validation-service
+
+docker push waelr1985/data-validation-service:latest
 ## How to use this container
 
 # just need to run this command:
@@ -156,12 +169,12 @@ A Docker-based service that handles data transformation for skin dataset, includ
 ## Build Instructions
 Build the Docker image:
 ```bash
-docker build -t data-transformation-service -f skin/components/data_transformation/Dockerfile .
+docker build -t waelr1985/data-transformation-service -f skin/components/data_transformation/Dockerfile .
 
 Run Instructions
 Run the container with volume mount:
 
-docker run -v "D:/Data-Engineering-Project-Big-Data/artifacts:/app/artifacts" data-transformation-service
+docker run -v "D:/Data-Engineering-Project-Big-Data/artifacts:/app/artifacts" waelr1985/data-transformation-service
 
 
 Docker Hub Instructions
@@ -192,7 +205,7 @@ docker pull waelr1985/data-transformation-service:latest
 docker build -t model-training-service -f skin/components/model_training/Dockerfile .
 
 Run
-docker run -v "D:/Data-Engineering-Project-Big-Data/artifacts:/app/artifacts" model-training-service
+docker run -v "D:/Data-Engineering-Project-Big-Data/artifacts:/app/artifacts" waelr1985/model-training-service
 
 Push to Docker Hub
 docker tag model-training-service waelr1985/model-training-service:latest
@@ -210,7 +223,7 @@ docker build -t model-evaluation-service -f skin/components/model_evaluation/Doc
 
 
 Run
-docker run -v "D:/Data-Engineering-Project-Big-Data/artifacts:/app/artifacts" model-evaluation-service
+docker run -v "D:/Data-Engineering-Project-Big-Data/artifacts:/app/artifacts" waelr1985/model-evaluation-service
 
 
 Push to Docker Hub
@@ -230,7 +243,7 @@ Recall: 97.23%
 F1 Score: 97.26%
 
 
-## Model Training Pusher Service
+## Model Pusher Service
 Build
 docker build -t model-pusher-service -f skin/components/model_pusher/Dockerfile .
 
@@ -239,7 +252,12 @@ docker run -v "$(pwd)/artifacts:/app/artifacts" \
           -v "${PWD}/key.json:/app/key.json:ro"\
           -e GOOGLE_APPLICATION_CREDENTIALS=/app/key.json \
           -e GOOGLE_CLOUD_PROJECT=starlit-byway-436420-s9 \
-          model-pusher-service
+          waelr1985/model-pusher-service
+
+
+PUSH
+docker tag model-pusher-service waelr1985/model-pusher-service
+docker push waelr1985/model-pusher-service:latest
 
 
 ### Model Predictor Service
@@ -267,3 +285,27 @@ docker pull waelr1985/model-predictor:latest
 Build 
 docker build -t app .
 
+docker build --no-cache -t app .
+
+
+docker tag app waelr1985/app
+
+RUN
+                          
+docker run -d -p 8000:8000 -v ${PWD}:/app/config -e GOOGLE_APPLICATION_CREDENTIALS=/app/key.json -e GOOGLE_CLOUD_PROJECT=starlit-byway-436420-s9 waelr1985/app:latest 
+
+
+
+
+docker push waelr1985/app
+
+
+docker build -t app . --no-cache
+docker tag app waelr1985/app
+docker stop $(docker ps -q)
+
+
+Now to run all the services we can use the docker compose
+docker-compose up
+
+ this command will start all the services and we can access the app service by going to http://localhost:8000 in the browser.

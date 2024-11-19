@@ -4,7 +4,7 @@ import logging
 from pyspark.sql import SparkSession
 from pyspark.ml.feature import VectorAssembler
 from pyspark.ml.classification import RandomForestClassifier
-from config import ModelTrainingConfig
+from skin.components.model_training.config import ModelTrainingConfig
 
 logging.basicConfig(
     level=logging.INFO,
@@ -91,7 +91,7 @@ class ModelTrainer:
             logger.error(f"Error saving model: {str(e)}")
             raise
 
-    def run_training_pipeline(self):
+    def initiate_model_training(self):
         """Execute the full training pipeline"""
         try:
             logger.info("Starting model training pipeline")
@@ -119,4 +119,4 @@ class ModelTrainer:
 
 if __name__ == "__main__":
     trainer = ModelTrainer()
-    trainer.run_training_pipeline()
+    trainer.initiate_model_training()

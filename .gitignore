@@ -164,3 +164,5 @@ cython_debug/
 echo "key.json" >> .gitignore
 artifacts/*
 key.json
+config/*
+log/*

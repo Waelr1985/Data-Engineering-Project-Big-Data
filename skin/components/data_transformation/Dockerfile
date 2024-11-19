@@ -36,6 +36,7 @@ RUN pip install --no-cache-dir -r requirements.txt && \
     pip install --no-cache-dir PyYAML==6.0.1
 
 # Copy application files - corrected paths
+COPY . .
 COPY skin/components/data_transformation/config.py /app/
 COPY skin/components/data_transformation/data_transformation.py /app/
 

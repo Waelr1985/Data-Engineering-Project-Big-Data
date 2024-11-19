@@ -6,7 +6,7 @@ from datetime import datetime
 import json
 from evidently.report import Report
 from evidently.metric_preset import DataDriftPreset
-from config import DataValidationConfig
+from skin.components.data_validation.config import DataValidationConfig
 import logging
 
 # Setup logging
@@ -139,7 +139,7 @@ class DataValidation:
         except Exception as e:
             raise CustomException(f"Error saving validation report: {str(e)}", sys)
         
-    def validate(self):
+    def initiate_data_validation(self):
         """Run full validation"""
         try:
             logger.info("Starting validation process...")
@@ -183,4 +183,4 @@ if __name__ == "__main__":
     logger.info("Initiating data validation...")
     config = DataValidationConfig()
     validator = DataValidation(config)
-    validator.validate()
+    validator.initiate_data_validation()

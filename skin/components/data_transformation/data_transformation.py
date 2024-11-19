@@ -3,9 +3,9 @@ import os
 import logging
 from pyspark.sql import SparkSession, DataFrame
 from typing import Tuple
-from config import DataTransformationConfig
+from skin.components.data_transformation.config import DataTransformationConfig
 
-class DataTransformationService:
+class DataTransformation:
     def __init__(self):
         """Initialize service with config and spark session"""
         self.logger = logging.getLogger(__name__)
@@ -56,7 +56,7 @@ class DataTransformationService:
         self.logger.info(f"Split data - Training: {train_df.count()}, Testing: {test_df.count()} rows")
         return train_df, test_df
     
-    def transform_and_save(self):
+    def initiate_data_transformation(self):
         """Main transformation pipeline"""
         try:
             self.logger.info("Starting transformation pipeline...")
@@ -94,8 +94,8 @@ def main():
         )
         
         # Run transformation
-        service = DataTransformationService()
-        service.transform_and_save()
+        service = DataTransformation()
+        service.initiate_data_transformation()
         
     except Exception as e:
         logging.error(f"Error in main execution: {str(e)}")

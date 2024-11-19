@@ -36,6 +36,7 @@ RUN pip install --no-cache-dir -r requirements.txt && \
     pip install --no-cache-dir pyspark==3.3.2
 
 # Copy application files - fixed file names and paths
+COPY . . 
 COPY skin/components/model_training/config.py /app/
 COPY skin/components/model_training/model_training.py /app/
 

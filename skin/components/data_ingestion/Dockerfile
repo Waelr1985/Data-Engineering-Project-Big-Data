@@ -1,22 +1,17 @@
-FROM python:3.8.20-slim
+FROM python:3.10-slim
 
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    curl \
-    && curl https://sdk.cloud.google.com | bash
+# Copy only the requirements first to leverage Docker cache
+COPY skin/components/data_ingestion/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-ENV PATH="/root/google-cloud-sdk/bin:${PATH}"
+# Copy the rest of the application
+COPY . .
 
-# Copy the entire skin directory first
-COPY skin /app/skin
+# Set environment variables
+ENV PYTHONPATH=/app
+#ENV GOOGLE_APPLICATION_CREDENTIALS=/app/key.json
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r /app/skin/components/data_ingestion/requirements.txt
-
-# Set Python path
-ENV PYTHONPATH="/app"
-
-# Command to run the script
-CMD ["python", "/app/skin/components/data_ingestion/data_ingestion.py"]
+# Run the data ingestion script
+CMD ["python", "-m", "skin.components.data_ingestion.data_ingestion"]

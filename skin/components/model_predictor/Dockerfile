@@ -37,9 +37,8 @@ RUN pip install --no-cache-dir --upgrade pip && \
 RUN mkdir -p /app/artifacts/imported_model && \
     chmod -R 777 /app/artifacts
 
-# Copy the application files
-COPY skin/components/model_predictor/model_predictor.py /app/
-COPY skin/configuration/gcloud.py /app/
+# Copy the entire skin module structure
+COPY skin /app/skin
 
 # Create a non-root user and set permissions
 RUN useradd -m -u 1000 appuser && \
@@ -48,4 +47,4 @@ RUN useradd -m -u 1000 appuser && \
 USER appuser
 
 # Add directory check on startup
-CMD ["python", "model_predictor.py"]
+CMD ["python", "skin/components/model_predictor/model_predictor.py"]
