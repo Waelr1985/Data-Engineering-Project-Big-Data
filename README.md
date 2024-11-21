@@ -4,7 +4,7 @@ This repository contains Microservices for Skin Segmentation Machine Learning Ap
 
 ## Folder structure
 
-![alt text](<folder structure.png>)
+![pics/folder structure.png](<pics/folder structure.png>)
 
 =====================================
 
@@ -16,7 +16,7 @@ This repository contains Microservices for Skin Segmentation Machine Learning Ap
 
 ## GCP Setup Instructions
 
-![alt text](<pics/GCP Bucket.png>)
+![alt text](image.png)
 =====================================
 ### 1. Create a GCP Project
 1. Go to [Google Cloud Console](https://console.cloud.google.com)
@@ -86,7 +86,7 @@ This project implements a microservices architecture, where the application is s
    - Easier debugging and maintenance
 
 ### Service Communication
-![alt text](<pics/flow chart.png>)
+![alt text](image-1.png)
 
 # Start all services
 docker-compose up
