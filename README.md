@@ -121,7 +121,6 @@ docker-compose ps
 This application consists of multiple microservices that work together to create an end-to-end machine learning pipeline. Each service can be built and run individually using Docker containers.
 
 
-<<<<<<< HEAD
 ## Services
 
 ### Data Ingestion Service
@@ -131,13 +130,6 @@ The Data Ingestion Service is responsible for downloading data from GCP after up
 
 
 ### Data Ingestion Service
-=======
-
-### To build microservices and run the container as isolated service with RUN commands
-
-Data Validation Service
-
->>>>>>> 35c1dbc5f34711e5f836c0d6927a6cc159610f5f
 ```bash
 # Build Docker image
 docker build -t data-ingestion-service -f skin/components/data_ingestion/Dockerfile .
