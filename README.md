@@ -117,15 +117,21 @@ docker-compose ps
 
 ---
 
-### Building and Running Individual Services
+## Service Architecture Overview
+This application consists of multiple microservices that work together to create an end-to-end machine learning pipeline. Each service can be built and run individually using Docker containers.
 
-Each microservice is encapsulated in its own Docker container. Follow the steps below to build and run the services individually. Ensure Docker is installed and running on your system.
+
+## Services
 
 ### Data Ingestion Service
-The Data Ingestion Service is responsible for downloading data from external sources (e.g., Kaggle) and uploading it to Google Cloud Storage (GCP).
+The Data Ingestion Service is responsible for downloading data from GCP after uploading it from external resource (e.g., Kaggle) 
 
 **Build the Service:**
+
+
+### Data Ingestion Service
 ```bash
+# Build Docker image
 docker build -t data-ingestion-service -f skin/components/data_ingestion/Dockerfile .
 
 
@@ -133,14 +139,14 @@ docker build -t data-ingestion-service -f skin/components/data_ingestion/Dockerf
 docker tag data-ingestion-service waelr1985/data-ingestion-service:latest
 docker push waelr1985/data-ingestion-service:latest
 
-# Run
+# Run Data Ingestion container
 docker run -it --rm \
     --name data-ingestion-container-new \
     -v "${PWD}/key.json:/app/key.json:ro" \
     -v "${PWD}/artifacts:/app/artifacts" \
     -e GOOGLE_APPLICATION_CREDENTIALS=/app/key.json \
     -e GOOGLE_CLOUD_PROJECT=starlit-byway-436420-s9 \
-    data-ingestion-service
+    waelr1985/data-ingestion-service
 
 Parameters Explained:
 -it: Interactive terminal
@@ -157,12 +163,12 @@ GOOGLE_CLOUD_PROJECT: Your Google Cloud project ID
 ## How to use this container
 # just need to run this command:
 docker pull waelr1985/data-ingestion-service:latest
-
+```
 
 ### Data Validation Service
 
-#### Build the Docker Image
 ```bash
+# Build Docker image
 docker build -t data-validation-service -f skin/components/data_validation/Dockerfile .
 
 
@@ -179,12 +185,12 @@ docker run -it \
 ## How to use this container
 # just need to run this command:
 docker pull waelr1985/data-validation-service:latest
-
+```
 
 #### Data Transformation Service
 
-#### Build the Docker Image
 ```bash
+# Build Docker image
 docker build -t waelr1985/data-transformation-service -f skin/components/data_transformation/Dockerfile .
 
 # Push to Docker Hub
@@ -198,13 +204,14 @@ docker run -v "D:/Data-Engineering-Project-Big-Data/artifacts:/app/artifacts" wa
 ## How to use this container
 # just need to run this command:
 docker pull waelr1985/data-transformation-service:latest
-
+```
 
 
 #### Model Training Service
 
-#### Build the Docker Image
+
 ```bash
+# Build Docker image
 docker build -t model-training-service -f skin/components/model_training/Dockerfile .
 
 # Push to Docker Hub 
@@ -212,25 +219,25 @@ docker tag model-training-service waelr1985/model-training-service:latest
 docker push waelr1985/model-training-service:latest
 
 
-#### Run the Data Training Container
+#### Run the Model Training Container
 docker run -v "D:/Data-Engineering-Project-Big-Data/artifacts:/app/artifacts" waelr1985/model-training-service
 
 ## How to use this container
 # just need to run this command:
 docker pull waelr1985/model-training-service:latest
-
+```
 
 ####  Model Evalaution Service
 
-#### Build the Docker Image
 ```bash
+# Build Docker image
 docker build -t model-evaluation-service -f skin/components/model_evaluation/Dockerfile .
 
 # Push to Docker Hub 
 docker tag model-evaluation-service waelr1985/model-evaluation-service:latest
 docker push waelr1985/model-evaluation-service:latest
 
-#### Run the Data Evaluation Container
+#### Run the Model Evaluation Container
 docker run -v "D:/Data-Engineering-Project-Big-Data/artifacts:/app/artifacts" waelr1985/model-evaluation-service
 
 
@@ -245,12 +252,12 @@ Accuracy: 97.23%
 Precision: 97.32%
 Recall: 97.23%
 F1 Score: 97.26%
-
+```
 
 #### Model Pusher Service
 
-#### Build the Docker Image
 ```bash
+# Build Docker image
 docker build -t model-pusher-service -f skin/components/model_pusher/Dockerfile .
 
 # Push to Docker Hub
@@ -258,7 +265,7 @@ docker tag model-pusher-service waelr1985/model-pusher-service
 docker push waelr1985/model-pusher-service:latest
 
 
-RUN
+#### Run the Model Pusher Container
 docker run -v "$(pwd)/artifacts:/app/artifacts" \
           -v "${PWD}/key.json:/app/key.json:ro"\
           -e GOOGLE_APPLICATION_CREDENTIALS=/app/key.json \
@@ -269,12 +276,12 @@ docker run -v "$(pwd)/artifacts:/app/artifacts" \
 ## How to use this container
 # just need to run this command:
 docker pull waelr1985/model-pusher-service:latest
-
+```
 
 ### Model Predictor Service
 
-#### Build the Docker Image
 ```bash
+# Build Docker image
 docker build --no-cache -t model-predictor-service -f skin/components/model_predictor/Dockerfile .
 
 # Push to Docker Hub
@@ -282,7 +289,7 @@ docker tag model-predictor-service waelr1985/model-predictor:latest
 docker push waelr1985/model-predictor:latest
 
 
-RUN
+#### Run the Model Predictor Container
 docker run -d --name model-predictor -e GOOGLE_APPLICATION_CREDENTIALS=/app/credentials/key.json -v "D:\Data-Engineering-Project-Big-Data\key.json:/app/credentials/key.json" -v D:\Data-Engineering-Project-Big-Data\artifacts:/app/artifacts --env B=150 --env G=100 --env R=200 model-predictor-service
 
 
@@ -290,12 +297,12 @@ docker run -d --name model-predictor -e GOOGLE_APPLICATION_CREDENTIALS=/app/cred
 ## How to use this container
 # just need to run this command:
 docker pull waelr1985/model-predictor:latest
-
+```
 
 ### app service
 
-#### Build the Docker Image
-```bash 
+```bash
+# Build Docker image
 docker build -t app .
 OR 
 docker build --no-cache -t app .
@@ -305,10 +312,11 @@ docker tag app waelr1985/app
 docker push waelr1985/app
 
 
-RUN                        
+#### Run APP Service Container                        
 docker run -d -p 8000:8000 -v ${PWD}:/app/config -e GOOGLE_APPLICATION_CREDENTIALS=/app/key.json -e GOOGLE_CLOUD_PROJECT=starlit-byway-436420-s9 waelr1985/app:latest 
 
 
 ## How to use this container
 # just need to run this command:
 docker pull waelr1985/app:latest 
+```
