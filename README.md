@@ -123,13 +123,12 @@ This application consists of multiple microservices that work together to create
 
 ## Services
 
-### Data Ingestion Service
-The Data Ingestion Service is responsible for downloading data from GCP after uploading it from external resource (e.g., Kaggle) 
-
 **Build the Service:**
 
 
 ### Data Ingestion Service
+The Data Ingestion Service is responsible for downloading data from GCP after uploading it from external resource (e.g., Kaggle) 
+
 ```bash
 # Build Docker image
 docker build -t data-ingestion-service -f skin/components/data_ingestion/Dockerfile .
@@ -166,6 +165,7 @@ docker pull waelr1985/data-ingestion-service:latest
 ```
 
 ### Data Validation Service
+Check the quality of the data including data drift
 
 ```bash
 # Build Docker image
@@ -188,6 +188,7 @@ docker pull waelr1985/data-validation-service:latest
 ```
 
 #### Data Transformation Service
+Prepare train and test sets for building Machine Learning Model
 
 ```bash
 # Build Docker image
@@ -208,7 +209,7 @@ docker pull waelr1985/data-transformation-service:latest
 
 
 #### Model Training Service
-
+Using train dataset to build ML model
 
 ```bash
 # Build Docker image
@@ -228,6 +229,7 @@ docker pull waelr1985/model-training-service:latest
 ```
 
 ####  Model Evalaution Service
+Evaluate the model
 
 ```bash
 # Build Docker image
@@ -255,6 +257,7 @@ F1 Score: 97.26%
 ```
 
 #### Model Pusher Service
+Pusing the model to GCP storage
 
 ```bash
 # Build Docker image
@@ -279,6 +282,7 @@ docker pull waelr1985/model-pusher-service:latest
 ```
 
 #### Model Predictor Service
+Downloading model from GCP to use it for prediction
 
 ```bash
 # Build Docker image
@@ -300,6 +304,7 @@ docker pull waelr1985/model-predictor:latest
 ```
 
 #### app service
+API for all services
 
 ```bash
 # Build Docker image
