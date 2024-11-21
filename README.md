@@ -115,15 +115,19 @@ docker-compose down --volumes
 docker-compose ps
 
 
+---
 
+### Building and Running Individual Services
 
-### To build microservices and run the container as isolated service with RUN commands
-
+Each microservice is encapsulated in its own Docker container. Follow the steps below to build and run the services individually. Ensure Docker is installed and running on your system.
 
 ### Data Ingestion Service
+The Data Ingestion Service is responsible for downloading data from external sources (e.g., Kaggle) and uploading it to Google Cloud Storage (GCP).
 
+**Build the Service:**
 ```bash
 docker build -t data-ingestion-service -f skin/components/data_ingestion/Dockerfile .
+
 
 # Push to Docker Hub
 docker tag data-ingestion-service waelr1985/data-ingestion-service:latest
