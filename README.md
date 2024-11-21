@@ -16,6 +16,8 @@ This repository contains Microservices for Skin Segmentation Machine Learning Ap
 
 ## GCP Setup Instructions
 
+![alt text](<GCP Bucket.png>)
+=====================================
 ### 1. Create a GCP Project
 1. Go to [Google Cloud Console](https://console.cloud.google.com)
 2. Click "New Project" and create a project
@@ -46,7 +48,7 @@ This repository contains Microservices for Skin Segmentation Machine Learning Ap
 ## Microservices Architecture Overview
 
 ### What is Microservices Architecture?
-This project implements a microservices architecture, where the application is structured as a collection of loosely coupled, independently deployable services. Each service handles a specific business capability and communicates with other services through well-defined APIs.
+This project implements a microservices architecture, where the application is structured as a collection of loosely coupled, independently deployable services. Each service handles a specific task capability and communicates with other services through well-defined APIs.
 
 ### Architecture Components
 
@@ -113,11 +115,13 @@ docker-compose down --volumes
 docker-compose ps
 
 
+
+
 ### To build microservices and run the container as isolated service with RUN commands
+
 
 ### Data Ingestion Service
 
-# Build
 ```bash
 docker build -t data-ingestion-service -f skin/components/data_ingestion/Dockerfile .
 
