@@ -257,7 +257,7 @@ F1 Score: 97.26%
 ```
 
 #### Model Pusher Service
-Pusing the model from local machine (in artifacts folder) to GCP storage
+Pushing the model from local machine (in artifacts folder) to GCP storage
 
 ```bash
 # Build Docker image
