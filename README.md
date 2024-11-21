@@ -278,7 +278,7 @@ docker run -v "$(pwd)/artifacts:/app/artifacts" \
 docker pull waelr1985/model-pusher-service:latest
 ```
 
-### Model Predictor Service
+#### Model Predictor Service
 
 ```bash
 # Build Docker image
@@ -299,7 +299,7 @@ docker run -d --name model-predictor -e GOOGLE_APPLICATION_CREDENTIALS=/app/cred
 docker pull waelr1985/model-predictor:latest
 ```
 
-### app service
+#### app service
 
 ```bash
 # Build Docker image
