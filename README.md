@@ -120,7 +120,8 @@ docker-compose ps
 ### To build microservices and run the container as isolated service with RUN commands
 
 
-### Data Ingestion Service
+
+###** Data Validation Service
 
 ```bash
 docker build -t data-ingestion-service -f skin/components/data_ingestion/Dockerfile .
