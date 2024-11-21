@@ -115,11 +115,10 @@ docker-compose ps
 
 ### To build microservices and run the container as isolated service with RUN commands
 
-### 1. Data Ingestion Service
-This service handles the initial data loading and processing.
+### Data Ingestion Service
 
-```bash
 # Build
+```bash
 docker build -t data-ingestion-service -f skin/components/data_ingestion/Dockerfile .
 
 # Push to Docker Hub
@@ -134,28 +133,6 @@ docker run -it --rm \
     -e GOOGLE_APPLICATION_CREDENTIALS=/app/key.json \
     -e GOOGLE_CLOUD_PROJECT=starlit-byway-436420-s9 \
     data-ingestion-service
-
-
-
-#### Data Ingestion Service
-
-#### Build the Docker Image
-```bash
-docker build -t data-ingestion-service -f skin/components/data_ingestion/Dockerfile .
-
-PUSH
-docker tag data-ingestion-service waelr1985/data-ingestion-service:latest
-docker push waelr1985/data-ingestion-service:latest
-
-
-#### Run the Data Ingestion Container
-docker run -it --rm \
-    --name data-ingestion-container-new \
-    -v "${PWD}/key.json:/app/key.json:ro" \
-    -v "${PWD}/artifacts:/app/artifacts" \
-    -e GOOGLE_APPLICATION_CREDENTIALS=/app/key.json \
-    -e GOOGLE_CLOUD_PROJECT=starlit-byway-436420-s9 \
-    waelr1985/data-ingestion-service
 
 Parameters Explained:
 -it: Interactive terminal
@@ -174,14 +151,14 @@ GOOGLE_CLOUD_PROJECT: Your Google Cloud project ID
 docker pull waelr1985/data-ingestion-service:latest
 
 
-#### Data Validation Service
+### Data Validation Service
 
 #### Build the Docker Image
 ```bash
 docker build -t data-validation-service -f skin/components/data_validation/Dockerfile .
 
 
-PUSH
+# Push to Docker Hub
 docker tag data-validation-service waelr1985/data-validation-service
 docker push waelr1985/data-validation-service:latest
 
@@ -202,7 +179,7 @@ docker pull waelr1985/data-validation-service:latest
 ```bash
 docker build -t waelr1985/data-transformation-service -f skin/components/data_transformation/Dockerfile .
 
-PUSH
+# Push to Docker Hub
 docker tag data-transformation-service waelr1985/data-transformation-service:latest
 docker push waelr1985/data-transformation-service:latest
 
@@ -222,7 +199,7 @@ docker pull waelr1985/data-transformation-service:latest
 ```bash
 docker build -t model-training-service -f skin/components/model_training/Dockerfile .
 
-PUSH 
+# Push to Docker Hub 
 docker tag model-training-service waelr1985/model-training-service:latest
 docker push waelr1985/model-training-service:latest
 
@@ -241,7 +218,7 @@ docker pull waelr1985/model-training-service:latest
 ```bash
 docker build -t model-evaluation-service -f skin/components/model_evaluation/Dockerfile .
 
-PUSH 
+# Push to Docker Hub 
 docker tag model-evaluation-service waelr1985/model-evaluation-service:latest
 docker push waelr1985/model-evaluation-service:latest
 
@@ -268,7 +245,7 @@ F1 Score: 97.26%
 ```bash
 docker build -t model-pusher-service -f skin/components/model_pusher/Dockerfile .
 
-PUSH to Docker Hub
+# Push to Docker Hub
 docker tag model-pusher-service waelr1985/model-pusher-service
 docker push waelr1985/model-pusher-service:latest
 
@@ -292,7 +269,7 @@ docker pull waelr1985/model-pusher-service:latest
 ```bash
 docker build --no-cache -t model-predictor-service -f skin/components/model_predictor/Dockerfile .
 
-PUSH
+# Push to Docker Hub
 docker tag model-predictor-service waelr1985/model-predictor:latest
 docker push waelr1985/model-predictor:latest
 
@@ -315,6 +292,7 @@ docker build -t app .
 OR 
 docker build --no-cache -t app .
 
+# Push to Docker Hub
 docker tag app waelr1985/app
 docker push waelr1985/app
 
