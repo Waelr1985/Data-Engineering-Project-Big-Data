@@ -127,7 +127,7 @@ This application consists of multiple microservices that work together to create
 
 
 ### Data Ingestion Service
-The Data Ingestion Service is responsible for downloading data from GCP after uploading it from external resource (e.g., Kaggle) 
+The Data Ingestion Service is responsible for downloading data from GCP after uploading it from external resource (e.g., Kaggle), and in local machine it will be saved in artifacts folder
 
 ```bash
 # Build Docker image
@@ -165,7 +165,7 @@ docker pull waelr1985/data-ingestion-service:latest
 ```
 
 ### Data Validation Service
-Check the quality of the data including data drift
+Check the quality of the data including data drift, and saving the report in artifacts folder
 
 ```bash
 # Build Docker image
@@ -188,7 +188,7 @@ docker pull waelr1985/data-validation-service:latest
 ```
 
 #### Data Transformation Service
-Prepare train and test sets for building Machine Learning Model
+Splitting the dataset into train and test sets for building Machine Learning Model, and saving the splitted data in artifacts folder.
 
 ```bash
 # Build Docker image
@@ -209,7 +209,7 @@ docker pull waelr1985/data-transformation-service:latest
 
 
 #### Model Training Service
-Using train dataset to build ML model
+Using train dataset from artifacts folder to build ML model
 
 ```bash
 # Build Docker image
@@ -229,7 +229,7 @@ docker pull waelr1985/model-training-service:latest
 ```
 
 ####  Model Evalaution Service
-Evaluate the model
+Evaluate the model and saving the evalaution metrics in artifacts folder
 
 ```bash
 # Build Docker image
@@ -257,7 +257,7 @@ F1 Score: 97.26%
 ```
 
 #### Model Pusher Service
-Pusing the model to GCP storage
+Pusing the model from local machine (in artifacts folder) to GCP storage
 
 ```bash
 # Build Docker image
