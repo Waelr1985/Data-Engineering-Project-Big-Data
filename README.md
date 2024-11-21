@@ -86,7 +86,7 @@ This project implements a microservices architecture, where the application is s
    - Easier debugging and maintenance
 
 ### Service Communication
-![alt text](<flow charts.png>)
+![alt text](<pic/flow chart.png>)
 
 # Start all services
 docker-compose up
