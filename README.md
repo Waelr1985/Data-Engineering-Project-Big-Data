@@ -4,7 +4,7 @@ This repository contains Microservices for Skin Segmentation Machine Learning Ap
 
 ## Folder structure
 
-![alt text](image.png)
+![alt text](<folder structure.png>)
 
 =====================================
 
@@ -123,13 +123,12 @@ This application consists of multiple microservices that work together to create
 
 ## Services
 
-### Data Ingestion Service
-The Data Ingestion Service is responsible for downloading data from GCP after uploading it from external resource (e.g., Kaggle) 
-
 **Build the Service:**
 
 
 ### Data Ingestion Service
+The Data Ingestion Service is responsible for downloading data from GCP after uploading it from external resource (e.g., Kaggle), and in local machine it will be saved in artifacts folder
+
 ```bash
 # Build Docker image
 docker build -t data-ingestion-service -f skin/components/data_ingestion/Dockerfile .
@@ -166,6 +165,7 @@ docker pull waelr1985/data-ingestion-service:latest
 ```
 
 ### Data Validation Service
+Check the quality of the data including data drift, and saving the report in artifacts folder
 
 ```bash
 # Build Docker image
@@ -188,6 +188,7 @@ docker pull waelr1985/data-validation-service:latest
 ```
 
 #### Data Transformation Service
+Splitting the dataset into train and test sets for building Machine Learning Model, and saving the splitted data in artifacts folder.
 
 ```bash
 # Build Docker image
@@ -208,7 +209,7 @@ docker pull waelr1985/data-transformation-service:latest
 
 
 #### Model Training Service
-
+Using train dataset from artifacts folder to build ML model
 
 ```bash
 # Build Docker image
@@ -228,6 +229,7 @@ docker pull waelr1985/model-training-service:latest
 ```
 
 ####  Model Evalaution Service
+Evaluate the model and saving the evalaution metrics in artifacts folder
 
 ```bash
 # Build Docker image
@@ -255,6 +257,7 @@ F1 Score: 97.26%
 ```
 
 #### Model Pusher Service
+Pusing the model from local machine (in artifacts folder) to GCP storage
 
 ```bash
 # Build Docker image
@@ -278,7 +281,8 @@ docker run -v "$(pwd)/artifacts:/app/artifacts" \
 docker pull waelr1985/model-pusher-service:latest
 ```
 
-### Model Predictor Service
+#### Model Predictor Service
+Downloading model from GCP to use it for prediction
 
 ```bash
 # Build Docker image
@@ -299,7 +303,8 @@ docker run -d --name model-predictor -e GOOGLE_APPLICATION_CREDENTIALS=/app/cred
 docker pull waelr1985/model-predictor:latest
 ```
 
-### app service
+#### app service
+API for all services
 
 ```bash
 # Build Docker image
