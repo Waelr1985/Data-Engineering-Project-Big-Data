@@ -2,6 +2,49 @@
 
 This repository contains Microservices for Skin Segmentation Machine Learning Application. The dataset is designed for skin detection and segmentation in computer vision applications. It contains RGB color values extracted from face images of individuals across different age groups, races, and genders.
 
+
+# Problem Statement
+
+The project addresses the challenge of automated skin detection in digital images using pixel-based RGB values. The goal is to develop a reliable microservices-based ML system that can:
+
+- Accurately classify pixels as skin or non-skin based on RGB color values.
+- Process both individual pixels and batch image data.
+
+## Technical Objectives
+
+- Build a scalable Random Forest model using PySpark for high-volume processing.
+- Deploy as microservices architecture for modular scaling by using Docker images.
+- Implement model serving through GCP for production use.
+
+## Business Impact
+
+Enable automated skin detection for:
+- Medical imaging applications.
+- Computer vision systems.
+- Content filtering.
+- Human-computer interaction.
+
+## Key Challenges
+
+- Handle class imbalance (20.75% skin vs 79.25% non-skin pixels).
+- Maintain model accuracy.
+- Scale for production workloads.
+
+## Success Metrics
+
+- High accuracy in skin pixel detection.
+- Fast prediction response times.
+- Scalable architecture for varying loads.
+- Reliable model deployment and updates.
+
+## Dataset Characteristics
+
+- 1.5 million pixel samples.
+- Features: RGB values (0-255).
+- Binary classification (skin/non-skin).
+- Source: UCI Machine Learning Repository.
+
+
 ## Folder structure
 
 ![pics/folder structure.png](<pics/folder structure.png>)
