@@ -6,6 +6,10 @@ services:
     container_name: data-ingestion
     volumes:
       - ./artifacts:/app/artifacts
+      - ./key.json:/app/key.json:ro
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/key.json
+      - GOOGLE_CLOUD_PROJECT=starlit-byway-436420-s9
     command: python /app/skin/components/data_ingestion/data_ingestion.py
 
   data-validation-service:

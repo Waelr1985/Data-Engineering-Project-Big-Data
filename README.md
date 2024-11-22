@@ -138,6 +138,7 @@ this command will start all the services and we can access the app service by go
 
 # Start specific service
 docker-compose up <service_name>
+example: docker-compose up data-ingestion-service
 
 # Start in detached mode
 docker-compose up -d
