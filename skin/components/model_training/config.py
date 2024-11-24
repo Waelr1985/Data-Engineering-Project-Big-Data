@@ -4,8 +4,7 @@ import os
 class ModelTrainingConfig:
     def __init__(self):
         self.artifacts_dir = os.path.abspath("artifacts")
-        self.extracted_data_dir = os.path.join(self.artifacts_dir, "extracted_data")
-        # Add this missing line
+        self.extracted_data_dir = os.path.join(self.artifacts_dir, "extracted_data") 
         self.transformed_data_dir = os.path.join(self.artifacts_dir, "transformed_data")
         self.model_dir = os.path.join(self.artifacts_dir, "model")
         self.train_dir = os.path.join(self.transformed_data_dir, "train")
