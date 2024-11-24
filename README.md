@@ -134,6 +134,7 @@ This project implements a microservices architecture, where the application is s
 
 # Start all services
 docker-compose up
+
 this command will start all the services and we can access the app service by going to http://localhost:8000 in the browser.
 
 
