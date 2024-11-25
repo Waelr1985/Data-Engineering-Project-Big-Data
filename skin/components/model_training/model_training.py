@@ -28,6 +28,8 @@ class ModelTrainer:
             train_path = os.path.join(self.config.train_dir, "train_data")
             logger.info(f"Loading training data from {train_path}")
             
+
+            
             # Changed from parquet to csv
             train_data = self.spark.read.csv(
                 train_path,

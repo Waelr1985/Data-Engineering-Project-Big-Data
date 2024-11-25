@@ -138,10 +138,17 @@ docker-compose up
 This command will start all the services and we can access the app service by going to http://localhost:8000 in the browser.
 
 
-# Start specific service
+# Start specific service, and it is recommended.
 docker-compose up <service_name>
 
-example: docker-compose up data-ingestion-service
+docker-compose up data-ingestion-service
+docker-compose up data-validation-service
+docker-compose up data-transformation-service
+docker-compose up model-training-service
+docker-compose up model-evaluation-service
+docker-compose up model-pusher-service
+docker-compose up model-predictor-service
+docker-compose up app-service
 
 # Start in detached mode
 docker-compose up -d

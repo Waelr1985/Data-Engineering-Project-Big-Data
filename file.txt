@@ -1,0 +1,8 @@
+docker-compose up data-ingestion-service
+docker-compose up data-validation-service
+docker-compose up data-transformation-service
+docker-compose up model-training-service
+docker-compose up model-evaluation-service
+docker-compose up model-pusher-service
+docker-compose up model-predictor-service
+docker-compose up app-service

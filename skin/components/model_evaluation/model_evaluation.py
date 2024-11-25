@@ -1,4 +1,3 @@
-# model_evaluation.py
 import os
 import logging
 from pyspark.sql import SparkSession
