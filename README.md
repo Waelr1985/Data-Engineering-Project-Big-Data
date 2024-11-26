@@ -1,4 +1,4 @@
-# ML-Microservices Based Application: Skin Classification System
+# Microservices-based ML Application: Skin Classification System
 
 This repository contains Microservices for Skin Segmentation Machine Learning Application. The dataset is designed for skin detection and segmentation in computer vision applications. It contains RGB color values extracted from face images of individuals across different age groups, races, and genders.
 
