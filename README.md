@@ -358,7 +358,6 @@ docker push waelr1985/model-predictor:latest
 docker run -d --name model-predictor -e GOOGLE_APPLICATION_CREDENTIALS=/app/credentials/key.json -v "D:\Data-Engineering-Project-Big-Data\key.json:/app/credentials/key.json" -v D:\Data-Engineering-Project-Big-Data\artifacts:/app/artifacts --env B=150 --env G=100 --env R=200 model-predictor-service
 
 
-
 ## How to use this container
 # just need to run this command:
 docker pull waelr1985/model-predictor:latest
